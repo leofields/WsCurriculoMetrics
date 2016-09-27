@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WsCurriculoMetrics:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/WsCurriculoMetrics_jar</output-path>
+    <root id="archive" name="WsCurriculoMetrics.jar">
+      <element id="module-output" name="WsCurriculoMetrics" />
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,7 @@
 package br.ufrn.info;
 
 import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        System.setOut(new PrintStream("logsaida.txt"));
         System.out.println("Iniciando importação de currículos...");
         long start = System.currentTimeMillis();
         int threadPoolSize = 20;
@@ -45,9 +47,10 @@ public class Main {
         long finalTime = System.currentTimeMillis() - start;
         System.out.println(
                 String.format("Tempo total de execução (HH:mm:ss): %03d:%02d:%02d",
-                        finalTime,
-                        finalTime % 60,
-                        finalTime % 60)
+                        TimeUnit.MILLISECONDS.toHours(finalTime),
+                        TimeUnit.MILLISECONDS.toMinutes(finalTime) % 60,
+                        TimeUnit.MILLISECONDS.toSeconds(finalTime) % 60)
         );
+        System.exit(0);
     }
 }

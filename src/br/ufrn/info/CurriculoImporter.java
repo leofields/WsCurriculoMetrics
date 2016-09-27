@@ -1,5 +1,7 @@
 package br.ufrn.info;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 
 /**
@@ -27,12 +29,20 @@ public class CurriculoImporter implements Runnable {
         String data = getDataAtualizacaoCV(id);
         // 3. Obtém o arquivo zipado do currículo. Obs.: está apenas baixando sem gravar em disco a fim de contabilizar somente o tempo de download.
         byte[] arquivo = getCurriculoCompactado(id);
+        File file = new File(""+cpf+".zip");
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(arquivo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private String getIdentificadorCNPq(String cpf){
         long start = System.currentTimeMillis();
         String identificadorCNPq = wsCurriculoService.getWSCurriculoPort().getIdentificadorCNPq(cpf, "", "");
-        System.out.println(String.format("Identificador [%s] obtido a partir do CPF [%s]", identificadorCNPq, cpf));
+        //System.out.println(String.format("Identificador [%s] obtido a partir do CPF [%s]", identificadorCNPq, cpf));
         metric.addTime(Operations.GET_ID_CNPQ, System.currentTimeMillis() - start);
         return identificadorCNPq;
     }
@@ -40,7 +50,7 @@ public class CurriculoImporter implements Runnable {
     private String getDataAtualizacaoCV(String id) {
         long start = System.currentTimeMillis();
         String data = wsCurriculoService.getWSCurriculoPort().getDataAtualizacaoCV(id);
-        System.out.println("Data de atualização do CV ["+ id +"]: " + data);
+        //System.out.println("Data de atualização do CV ["+ id +"]: " + data);
         metric.addTime(Operations.GET_DATA_ATUALIZACAO, System.currentTimeMillis() - start);
         return data;
     }
@@ -48,7 +58,7 @@ public class CurriculoImporter implements Runnable {
     private byte[] getCurriculoCompactado(String id) {
         long start = System.currentTimeMillis();
         byte[] zip = wsCurriculoService.getWSCurriculoPort().getCurriculoCompactado(id);
-        System.out.println("Tamanho do arquivo do CV ["+ id +"]: " + zip.length + " bytes");
+        //System.out.println("Tamanho do arquivo do CV ["+ id +"]: " + zip.length + " bytes");
         metric.addTime(Operations.DOWNLOAD_CURRICULO_ZIP, System.currentTimeMillis() - start);
         return zip;
     }
