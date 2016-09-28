@@ -51,6 +51,6 @@ public class Main {
                         TimeUnit.MILLISECONDS.toMinutes(finalTime) % 60,
                         TimeUnit.MILLISECONDS.toSeconds(finalTime) % 60)
         );
-        System.exit(0);
+
     }
 }
